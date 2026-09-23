@@ -1,0 +1,51 @@
+flowchart TB
+    G["任务需要操作终端程序"]
+    P["terminal_program_profile<br/>查询本地能力画像"]
+    Q{"有 CLI / CMD / batch / script<br/>或结构化导出接口?"}
+    V["安全探测目标版本<br/>--help / version / list / dry-run"]
+    N["使用非交互接口<br/>可审计命令 + Job / Task Block"]
+
+    H{"非交互能力<br/>是否覆盖当前目标?"}
+    C["定义人工检查点<br/>目标界面、要确认的信息、停止条件"]
+    U["人连续操作 TUI<br/>模型不逐键遥控"]
+    O["到达检查点后<br/>模型只读取一次 changed view"]
+
+    F{"仍无法通过<br/>人机检查点完成?"}
+    A["Agent 受限 TUI fallback"]
+    L["记录 expected process<br/>pane size · screen fingerprint"]
+    K["有上限 key sequence<br/>方向键可合并 · Enter 独立"]
+    R{"前台程序或屏幕<br/>仍与预期一致?"}
+    D["拒绝剩余按键<br/>防止泄漏到 Shell"]
+    Z["changed-row snapshot<br/>只返回变化行"]
+
+    X["退出 TUI"]
+    E{"正常退出?"}
+    S["确认 shell-ready<br/>再提交业务命令"]
+    T["强制 Ctrl+C 后<br/>display check / stty sane / reset"]
+
+    G --> P --> Q
+    Q -->|"是"| V --> H
+    H -->|"是"| N
+    H -->|"否"| C
+    Q -->|"否"| C
+    C --> U --> O --> F
+    F -->|"否，已经完成"| X
+    F -->|"是"| A --> L --> K --> R
+    R -->|"否"| D
+    R -->|"是"| Z --> X
+    N --> X
+    X --> E
+    E -->|"是"| S
+    E -->|"否 / 强制中断"| T --> S
+
+    classDef start fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef profile fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef human fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef fallback fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+    classDef stop fill:#FEF2F2,stroke:#DC2626,color:#0F172A,stroke-width:2px;
+
+    class G,Q,H,F,E start;
+    class P,V,N profile;
+    class C,U,O,S human;
+    class A,L,K,R,Z,X,T fallback;
+    class D stop;
