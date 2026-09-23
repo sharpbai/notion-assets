@@ -1,0 +1,36 @@
+flowchart TB
+    T1["用户消息 T1<br/>turn_started_at_ms = 1000"] --> AC1["acquire<br/>pane %0"]
+    AC1 --> G1["Execution Lease<br/>generation = 1<br/>state = ACTIVE"]
+    G1 --> D1["模型决策 A<br/>携带 generation 1"]
+    G1 --> D2["已排队的决策 B<br/>携带 generation 1"]
+    D1 --> V1{"Bridge 校验<br/>generation 1 仍 ACTIVE?"}
+    V1 -->|"是"| P1["ALLOW<br/>写入 tmux pane"]
+
+    H["真人在 tmux 中按 Ctrl+C"] --> E["HUMAN_INTERRUPT<br/>pane %0 · seq 1"]
+    E --> R1["generation 1<br/>ACTIVE → REVOKED<br/>记录 revoked_at_ms"]
+
+    D2 --> V2{"Bridge 校验<br/>generation 1 仍 ACTIVE?"}
+    R1 --> V2
+    V2 -->|"否"| X["DENY<br/>旧动作不进入 pane"]
+
+    T2["后续用户消息 T2<br/>时间晚于 revoked_at_ms"] --> AC2["重新 acquire<br/>同一 pane"]
+    AC2 --> G2["Execution Lease<br/>generation = 2<br/>state = ACTIVE"]
+    G2 --> D3["新决策 C<br/>携带 generation 2"]
+    D3 --> V3{"Bridge 校验<br/>generation 2 仍 ACTIVE?"}
+    V3 -->|"是"| P2["ALLOW<br/>继续写入 tmux pane"]
+
+    O["只读观察<br/>capture / read_delta"] -.->|"不需要 Lease"| P0["读取 pane 历史"]
+
+    classDef user fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef lease fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef decision fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef human fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+    classDef deny fill:#FEF2F2,stroke:#DC2626,color:#0F172A,stroke-width:2px;
+    classDef observe fill:#F8FAFC,stroke:#64748B,color:#0F172A,stroke-width:2px;
+
+    class T1,T2 user;
+    class AC1,G1,AC2,G2,V1,V2,V3 lease;
+    class D1,D2,D3 decision;
+    class H,E,R1 human;
+    class X deny;
+    class O,P0 observe;
