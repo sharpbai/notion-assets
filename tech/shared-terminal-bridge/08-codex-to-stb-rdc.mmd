@@ -1,0 +1,49 @@
+flowchart TB
+    H["Human<br/>真实 Terminal / tmux client"]
+
+    subgraph CLIENTS["AI 入口"]
+        direction LR
+        C["Codex Desktop<br/>本地 stdio MCP"]
+        G["ChatGPT<br/>Remote MCP"]
+    end
+
+    C --> M["STB MCP adapter<br/>本地工具 schema / turn identity"]
+    G --> R["Remote Desktop Commander<br/>远程 transport"]
+    R --> A["stb-rdc v0.2.3<br/>ChatGPT 薄适配层"]
+
+    M --> B["Shared Terminal Bridge daemon<br/>Observation · Lease · Job · Human Event"]
+    A --> B
+    B --> T["托管 tmux session<br/>verify33"]
+    H --> T
+
+    subgraph WORKFLOW["STB-RDC 固定工作流"]
+        direction LR
+        W1["bootstrap<br/>只 discovery"]
+        W2["context / plan"]
+        W3["lease<br/>取得 generation"]
+        W4["send<br/>快速返回 job_id"]
+        W5["job / wait"]
+        W6["Human Ctrl+C<br/>REVOKED + STOP_CURRENT_TURN"]
+        W1 --> W2 --> W3 --> W4 --> W5 --> W6
+    end
+
+    A -.-> W1
+    W3 -.-> B
+    W4 -.-> B
+    W5 -.-> B
+
+    X["禁止绕过<br/>RDC shell/process → 用户任务<br/>直接 tmux send-keys"]
+    R -.-> X
+    X -.->|"必须改走 stb-rdc"| A
+
+    classDef human fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef client fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef adapter fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+    classDef core fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef stop fill:#FEF2F2,stroke:#DC2626,color:#0F172A,stroke-width:2px;
+
+    class H human;
+    class C,G,M client;
+    class R,A,W1,W2,W3,W4,W5,W6 adapter;
+    class B,T core;
+    class X stop;
