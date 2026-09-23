@@ -1,0 +1,43 @@
+flowchart TB
+    U["模型准备提交命令"]
+    Q{"预计超过 120 秒<br/>或 high_io / full_scan?"}
+    R["terminal_long_run_request<br/>只登记，不执行"]
+    A["人看到完整命令、预计时间与预算<br/>后续消息或 stb approve 批准"]
+    P["一次性 approval<br/>绑定命令指纹 · pane · generation"]
+    S["terminal_submit<br/>创建 job_id"]
+    W["terminal_wait_job<br/>Bridge 本地事件等待<br/>最长 10 分钟"]
+
+    U --> Q
+    Q -->|"是"| R --> A --> P --> S
+    Q -->|"否"| S
+    S --> W
+
+    W --> C["COMPLETED<br/>返回有界 output_excerpt"]
+    W --> I["INTERRUPTED_BY_HUMAN<br/>立即撤权并返回"]
+    W --> N["NEEDS_ATTENTION<br/>密码 / 确认 / SSH 上下文变化"]
+    W --> X["WAIT_CANCELLED<br/>只取消等待，job 继续"]
+    W --> T["10 分钟无结论<br/>STRATEGY_REVIEW_REQUIRED"]
+
+    T --> E{"有可信活动证据<br/>且继续仍合理?"}
+    E -->|"是"| W
+    E -->|"否或明显超期"| H["HUMAN_DECISION_REQUIRED<br/>报告，不自动 Ctrl+C"]
+
+    C --> Z["macOS 通知 / Codex 返回<br/>stb job · watch · history"]
+    I --> Z
+    N --> Z
+    H --> Z
+
+    K["Codex notifications/cancelled"] --> X
+    X --> Y["后续用户消息可立即继续<br/>查询、等待或显式中断 job"]
+
+    classDef model fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef approval fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+    classDef bridge fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef stop fill:#FEF2F2,stroke:#DC2626,color:#0F172A,stroke-width:2px;
+    classDef human fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+
+    class U,Q,E model;
+    class R,A,P approval;
+    class S,W,C,T,Z bridge;
+    class I,N,X,H stop;
+    class K,Y human;
