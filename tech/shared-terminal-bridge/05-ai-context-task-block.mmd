@@ -1,0 +1,46 @@
+flowchart TB
+    R["tmux Raw pane history<br/>完整事实留在本地"]
+    C["Observation cursor<br/>只计算上次快照后的 delta"]
+    F["Deterministic filter<br/>清 ANSI / 回显 · 折叠重复"]
+    B["Context budget<br/>默认 200 行 / 16 KiB<br/>超限保留首尾并报告省略量"]
+    S["Structured control fields<br/>Override · Lease · exit / job state"]
+    V["Model View<br/>有界增量 + 结构化状态"]
+    M["模型只在决策边界介入<br/>完成 · 异常 · 分支 · 人工中断"]
+
+    R --> C --> F --> B --> V --> M
+    S --> V
+
+    subgraph TBLOCK["Task Block"]
+        direction TB
+        T0["计划元数据<br/>pane · generation · steps · budget"]
+        T1["v0.2 terminal_task_block<br/>只记录，不执行"]
+        T2["显式 terminal_submit<br/>每条命令独立可见、可审计"]
+        T3["v8 TaskBlockRunner<br/>仅 1–8 条白名单只读步骤"]
+        T4{"本地停止条件"}
+        T5["继续下一步<br/>无需模型采样"]
+        T6["停止并返回结构化 observation"]
+
+        T0 --> T1 --> T2
+        T0 --> T3 --> T4
+        T4 -->|"断言通过 / 仍在预算内"| T5 --> T4
+        T4 -->|"Override / 提示 / 失败 / 超预算"| T6
+    end
+
+    T2 --> C
+    T6 --> V
+
+    W["空增量与长等待<br/>在 Bridge 本地等待"]
+    W -->|"变化 / 完成 / 取消"| V
+    W -->|"连续空增量或超时"| X["BUDGET_EXHAUSTED<br/>停止模型轮询"]
+
+    classDef raw fill:#F8FAFC,stroke:#64748B,color:#0F172A,stroke-width:2px;
+    classDef policy fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef model fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef task fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef stop fill:#FEF2F2,stroke:#DC2626,color:#0F172A,stroke-width:2px;
+
+    class R raw;
+    class C,F,B,S,V,W policy;
+    class M model;
+    class T0,T1,T2,T3,T4,T5,T6 task;
+    class X stop;
