@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="white"/>
+<style>text{font-family:Arial,"Noto Sans SC",sans-serif;fill:#222}.t{font-size:28px;font-weight:700}.s{font-size:18px}.a{font-size:15px}.g{stroke:#ddd;stroke-width:1}.axis{stroke:#222;stroke-width:2}.m2{fill:none;stroke:#3973ac;stroke-width:5}.z{stroke:#555;stroke-width:2}</style>
+<text x="600" y="42" text-anchor="middle" class="t">朗逸 M2：不同下坡坡度下的净纵向加速度（估算）</text>
+<text x="600" y="70" text-anchor="middle" class="s">负值=车辆自然减速；正值=车辆仍会加速；0=理论稳定速度</text>
+<line x1="110" y1="600" x2="1090" y2="600" class="axis"/><line x1="110" y1="110" x2="110" y2="600" class="axis"/>
+<line x1="170" y1="110" x2="170" y2="600" class="g"/><text x="170" y="635" text-anchor="middle" class="a">40</text><line x1="380" y1="110" x2="380" y2="600" class="g"/><text x="380" y="635" text-anchor="middle" class="a">50</text><line x1="590" y1="110" x2="590" y2="600" class="g"/><text x="590" y="635" text-anchor="middle" class="a">60</text><line x1="800" y1="110" x2="800" y2="600" class="g"/><text x="800" y="635" text-anchor="middle" class="a">70</text><line x1="1010" y1="110" x2="1010" y2="600" class="g"/><text x="1010" y="635" text-anchor="middle" class="a">80</text>
+<line x1="110" y1="535" x2="1090" y2="535" class="g"/><text x="90" y="540" text-anchor="end" class="a">-1.5</text><line x1="110" y1="430" x2="1090" y2="430" class="g"/><text x="90" y="435" text-anchor="end" class="a">-1.0</text><line x1="110" y1="325" x2="1090" y2="325" class="g"/><text x="90" y="330" text-anchor="end" class="a">-0.5</text><line x1="110" y1="220" x2="1090" y2="220" class="z"/><text x="90" y="225" text-anchor="end" class="a">0.0</text><line x1="110" y1="115" x2="1090" y2="115" class="g"/><text x="90" y="120" text-anchor="end" class="a">0.5</text>
+<text x="600" y="680" text-anchor="middle" class="s">车速 km/h（M2）</text><text x="28" y="355" transform="rotate(-90 28 355)" text-anchor="middle" class="s">净纵向加速度 m/s²</text>
+<polyline points="170,470 380,430 590,385 800,335 1010,280" fill="none" stroke="#295f9e" stroke-width="4"/><text x="1020" y="280" class="a">0%</text>
+<polyline points="170,420 380,380 590,335 800,285 1010,230" fill="none" stroke="#4d83bd" stroke-width="4"/><text x="1020" y="230" class="a">5%</text>
+<polyline points="170,385 380,345 590,300 800,250 1010,195" fill="none" stroke="#6b9b65" stroke-width="4"/><text x="1020" y="195" class="a">8%</text>
+<polyline points="170,350 380,310 590,265 800,215 1010,160" fill="none" stroke="#d28a2f" stroke-width="4"/><text x="1020" y="160" class="a">10%</text>
+<polyline points="170,315 380,275 590,230 800,180 1010,125" fill="none" stroke="#b64c4c" stroke-width="4"/><text x="1020" y="125" class="a">12%</text>
+<text x="715" y="460" class="a">示意：坡越陡，重力越抵消发动机制动</text>
+<text x="715" y="485" class="a">真实稳定点取决于坡度、风阻、滚阻和实际倒拖扭矩</text>
+</svg>
