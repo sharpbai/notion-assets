@@ -1,0 +1,35 @@
+flowchart TB
+    H["Human<br/>在 iTerm2 按 Ctrl+C"]
+    A["Agent / Bridge<br/>请求发送 C-c"]
+    C["tmux client"]
+    K["root key table<br/>C-c binding"]
+    S1["send-keys C-c"]
+    S2["tmux send-keys C-c"]
+    P["共享 tmux pane"]
+    F["前台进程收到 SIGINT"]
+    E["异步事件生产者"]
+    U["Unix datagram socket<br/>0600"]
+    B["Local Bridge<br/>分配 seq 并记录事件"]
+    I["HUMAN_INTERRUPT<br/>source = tmux_client"]
+    X["不产生 Human Event"]
+
+    H --> C --> K
+    K --> S1 --> P --> F
+    K --> E --> U --> B --> I
+
+    A --> S2 --> P
+    S2 -.-> X
+
+    U -.->|"监听器缺失或投递失败"| D["事件允许丢弃<br/>Ctrl+C 仍立即生效"]
+
+    classDef human fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef agent fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef tmux fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef event fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+    classDef stop fill:#FEF2F2,stroke:#DC2626,color:#0F172A,stroke-width:2px;
+
+    class H,C human;
+    class A agent;
+    class K,S1,S2,P,F tmux;
+    class E,U,B,I event;
+    class X,D stop;
