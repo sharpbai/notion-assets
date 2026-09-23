@@ -1,0 +1,27 @@
+flowchart TB
+    U["Human / iTerm2<br/>日常操作、滚屏、SSH、sudo"]
+    A["AI Client<br/>Codex / ChatGPT"]
+    T["tmux<br/>共享会话、历史与事实中心"]
+    B["Shared Terminal Bridge<br/>观察、授权、事件与审计"]
+    P["PTY / Shell / SSH<br/>真实执行环境"]
+    R["Remote Host<br/>服务器、容器或本机"]
+
+    U -->|"真人键盘输入"| T
+    A -->|"观察 / 请求执行"| B
+    B -->|"读取 pane / 受控写入"| T
+    T --> P
+    P --> R
+
+    T -->|"同一份输出与历史"| U
+    T -->|"有预算的上下文"| B
+    U -.->|"Ctrl+C：最高优先级撤权"| B
+
+    classDef human fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef ai fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef core fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef runtime fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+
+    class U human;
+    class A ai;
+    class T,B core;
+    class P,R runtime;
