@@ -1,0 +1,58 @@
+flowchart TB
+    subgraph ENTRY["入口层"]
+        direction LR
+        H["Human<br/>Terminal / tmux client"]
+        C["Codex<br/>MCP host"]
+        S["stb CLI<br/>本地管理入口"]
+    end
+
+    M["stdio MCP adapter<br/>工具 schema · turn identity · 请求取消"]
+    B["Local Bridge daemon<br/>Unix control socket"]
+
+    subgraph CORE["本地强制执行层"]
+        direction LR
+        O["Observation Guard<br/>ACL · read · delta · state"]
+        L["Execution Guard<br/>Lease · generation · approval"]
+        W["Wait / Job Manager<br/>完成 · 取消 · Override"]
+        E["Human Event Consumer<br/>Unix datagram socket"]
+        P["State & Audit<br/>0600 state / JSONL"]
+    end
+
+    subgraph RUNTIME["共享执行层"]
+        direction LR
+        T["托管 tmux server<br/>session / window / pane"]
+        F["目标 Shell 与程序<br/>真实执行环境"]
+    end
+
+    C -->|"JSON-RPC over stdio"| M
+    S -->|"创建、进入、审批、管理"| B
+    M -->|"结构化本地 RPC"| B
+
+    B --> O
+    B --> L
+    B --> W
+    B --> E
+    B --> P
+
+    O -->|"capture-pane"| T
+    L -->|"校验后 send-keys"| T
+    H -->|"键盘、鼠标、Ctrl+C"| T
+    T -->|"HUMAN_INTERRUPT"| E
+    W -->|"观察 job 状态"| T
+    T --> F
+
+    E -->|"撤销当前 generation"| L
+    W -.->|"即时唤醒 wait"| M
+    O -.->|"有界结果"| M
+
+    classDef human fill:#E8F3FF,stroke:#2563EB,color:#0F172A,stroke-width:2px;
+    classDef client fill:#F3E8FF,stroke:#7C3AED,color:#0F172A,stroke-width:2px;
+    classDef bridge fill:#ECFDF5,stroke:#059669,color:#0F172A,stroke-width:2px;
+    classDef control fill:#FFF7ED,stroke:#EA580C,color:#0F172A,stroke-width:2px;
+    classDef terminal fill:#F8FAFC,stroke:#475569,color:#0F172A,stroke-width:2px;
+
+    class H human;
+    class C,M client;
+    class S control;
+    class B,O,L,W,E,P bridge;
+    class T,F terminal;
