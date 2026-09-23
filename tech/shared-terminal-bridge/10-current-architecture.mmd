@@ -1,0 +1,67 @@
+flowchart TB
+    H["Human<br/>Terminal / tmux client"]
+
+    subgraph AI["AI 入口层"]
+        direction LR
+        C["Codex Desktop<br/>本地 MCP"]
+        G["ChatGPT<br/>Remote MCP"]
+    end
+
+    C --> CM["STB MCP adapter<br/>tool schema · turn identity"]
+    G --> RDC["Remote Desktop Commander<br/>transport"]
+    RDC --> RA["STB-RDC adapter<br/>remote command mapping"]
+
+    subgraph B["Shared Terminal Bridge daemon · v0.14.0 / API v9"]
+        direction LR
+        O["Observation<br/>ACL · bounded delta<br/>Context Policy"]
+        L["Execution Control<br/>Lease · generation<br/>approval · Human Override"]
+        J["Job Runtime<br/>submit · wait · cancel<br/>TaskBlockRunner"]
+        A["Audit & Recovery<br/>history · server identity<br/>crash recovery"]
+    end
+
+    CM --> O
+    CM --> L
+    CM --> J
+    RA --> O
+    RA --> L
+    RA --> J
+
+    subgraph T["托管 tmux · 共享事实层"]
+        direction LR
+        CL["client key path<br/>Human Event"]
+        P["session / window / pane<br/>scrollback · foreground process"]
+    end
+
+    H --> CL --> P
+    O -- "capture-pane" --> P
+    L -- "校验后放行" --> J
+    J -- "visible send-keys" --> P
+    CL -- "Ctrl+C event" --> L
+    O --> A
+    L --> A
+    J --> A
+
+    X["目标执行环境<br/>local shell / SSH / TUI"]
+    P --> X
+
+    R1["硬边界 1<br/>Observation 不需要 lease"]
+    R2["硬边界 2<br/>stale generation 写入前拒绝"]
+    R3["硬边界 3<br/>不注入脚本 / wrapper / marker"]
+    R4["硬边界 4<br/>Human Ctrl+C 撤销当前决策链"]
+
+    O -.-> R1
+    L -.-> R2
+    J -.-> R3
+    CL -.-> R4
+
+    classDef human fill:#E8F1FF,stroke:#4C78A8,color:#17324D,stroke-width:1.5px;
+    classDef ai fill:#F3ECFF,stroke:#7E57C2,color:#36225B,stroke-width:1.5px;
+    classDef bridge fill:#E9F7EF,stroke:#3A8D5D,color:#173E29,stroke-width:1.5px;
+    classDef tmux fill:#FFF3E5,stroke:#D9822B,color:#5A3211,stroke-width:1.5px;
+    classDef boundary fill:#FFF8D8,stroke:#B28A00,color:#4A3A00,stroke-width:1.5px;
+
+    class H human;
+    class C,G,CM,RDC,RA ai;
+    class O,L,J,A bridge;
+    class CL,P,X tmux;
+    class R1,R2,R3,R4 boundary;
