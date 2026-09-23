@@ -1,0 +1,38 @@
+flowchart TB
+    P0["阶段 1 · 找对控制面<br/>iTerm 监听失败 → tmux client/pane<br/>Human / Agent Ctrl+C 可区分"]
+    P1["阶段 2 · 建立安全内核<br/>Unix Event → Execution Lease → Pane ACL<br/>stale generation 在写入前拒绝"]
+    P2["阶段 3 · 从 PoC 到本地服务<br/>合并 daemon · 崩溃恢复 · server identity<br/>真实 tmux 验收通过"]
+    P3["阶段 4 · 接入真实工作流<br/>最小 MCP · 托管会话 · turn identity<br/>观察与写入解耦"]
+    P4["阶段 5 · 降低上下文与等待成本<br/>Context Policy · delta · Job / wait<br/>批准、通知、取消、历史"]
+    P5["阶段 6 · 降低模型编排轮数<br/>TaskBlockRunner · program profile<br/>CLI 优先，人类辅助 TUI"]
+
+    P0 --> P1 --> P2 --> P3 --> P4 --> P5
+
+    E03["实操 03<br/>255.5s · 25 MCP · 1.345M input<br/>安全正确，但编排与上下文昂贵"]
+    E13["实操 13<br/>体验顺畅，但 65 次 command submit<br/>瓶颈转向模型决策边界"]
+    E14["实操 14<br/>普通首检 input -30.2%<br/>TestDisk TUI 消耗 14.303M input"]
+    E15["实操 15<br/>无 TUI / lease 冲突 / wait 阻塞<br/>整体 input 较 14 降 78.9%"]
+
+    P4 -.-> E03
+    P5 -.-> E13
+    P5 -.-> E14
+    P5 -.-> E15
+
+    NOW["当前稳定边界<br/>Human Override · generation 校验 · 事件等待<br/>显式命令 · 有界增量 · 本地安全强制"]
+    NEXT["下一阶段<br/>缩短冷启动 · 写入后验证块 · stuck detection<br/>远程恢复基线 · 轻量 TUI 生命周期保护"]
+
+    E15 --> NOW --> NEXT
+
+    classDef foundation fill:#E8F1FF,stroke:#4C78A8,color:#18324A,stroke-width:1.5px;
+    classDef safety fill:#E9F7EF,stroke:#3A8D5D,color:#173E29,stroke-width:1.5px;
+    classDef workflow fill:#FFF3E5,stroke:#D9822B,color:#5A3211,stroke-width:1.5px;
+    classDef evidence fill:#F5EEFF,stroke:#7E57C2,color:#352259,stroke-width:1.5px;
+    classDef current fill:#E7F7F7,stroke:#268A8A,color:#123D3D,stroke-width:2px;
+    classDef next fill:#FFF8D8,stroke:#B28A00,color:#4A3A00,stroke-width:2px;
+
+    class P0 foundation;
+    class P1,P2 safety;
+    class P3,P4,P5 workflow;
+    class E03,E13,E14,E15 evidence;
+    class NOW current;
+    class NEXT next;
