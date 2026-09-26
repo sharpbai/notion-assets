@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<rect width="1600" height="1000" fill="#f7f2e8"/>
+<text x="70" y="90" font-family="Noto Sans CJK SC,Arial" font-size="58" font-weight="700" fill="#4a2612">云冈石窟｜游览地图</text>
+<text x="72" y="135" font-family="Noto Sans CJK SC,Arial" font-size="24" fill="#6b5544">9月26日现场版 · 从东向西游览 · 把时间留给真正值得看的洞窟</text>
+<path d="M120 600 C300 520 430 560 570 500 S850 520 1030 450 S1320 470 1480 390" fill="none" stroke="#b68a5a" stroke-width="46" stroke-linecap="round"/>
+<path d="M120 600 C300 520 430 560 570 500 S850 520 1030 450 S1320 470 1480 390" fill="none" stroke="#ead7b7" stroke-width="32" stroke-linecap="round"/>
+<text x="80" y="665" font-family="Noto Sans CJK SC,Arial" font-size="24" fill="#704a2c">东 ← 游客中心 / 灵岩寺</text>
+<text x="1280" y="345" font-family="Noto Sans CJK SC,Arial" font-size="24" fill="#704a2c">昙曜五窟 → 西</text>
+<circle cx="220" cy="565" r="29" fill="#416b87"/><text x="220" y="574" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">1</text><circle cx="420" cy="535" r="29" fill="#b9352c"/><text x="420" y="544" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">5</text><circle cx="500" cy="515" r="29" fill="#b9352c"/><text x="500" y="524" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">6</text><circle cx="690" cy="495" r="29" fill="#416b87"/><text x="690" y="504" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">9</text><circle cx="890" cy="470" r="29" fill="#b9352c"/><text x="890" y="479" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">13</text><circle cx="1100" cy="440" r="29" fill="#416b87"/><text x="1100" y="449" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">16</text><circle cx="1260" cy="415" r="29" fill="#b9352c"/><text x="1260" y="424" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">18</text><circle cx="1420" cy="395" r="29" fill="#b9352c"/><text x="1420" y="404" text-anchor="middle" font-family="Arial" font-size="25" font-weight="700" fill="white">20</text>
+<g font-family="Noto Sans CJK SC,Arial">
+<rect x="80" y="190" width="285" height="220" rx="22" fill="#fff" stroke="#dcc6a8"/>
+<text x="105" y="235" font-size="29" font-weight="700" fill="#a42b24">★ 第5、6窟｜必看</text>
+<text x="105" y="280" font-size="22" fill="#44362d">第5窟：巨大坐佛，尺度震撼</text><text x="105" y="318" font-size="22" fill="#44362d">第6窟：雕刻密度极高</text><text x="105" y="356" font-size="22" fill="#44362d">建议停留 30–45 分钟</text>
+<rect x="395" y="190" width="285" height="220" rx="22" fill="#fff" stroke="#dcc6a8"/>
+<text x="420" y="235" font-size="29" font-weight="700" fill="#b06a20">★ 第9–13窟｜推荐</text>
+<text x="420" y="280" font-size="22" fill="#44362d">五华洞区域，色彩丰富</text><text x="420" y="318" font-size="22" fill="#44362d">音乐、舞蹈与雕刻细节多</text><text x="420" y="356" font-size="22" fill="#44362d">建议停留 40–60 分钟</text>
+<rect x="710" y="190" width="360" height="220" rx="22" fill="#fff" stroke="#dcc6a8"/>
+<text x="735" y="235" font-size="29" font-weight="700" fill="#a42b24">★★ 第16–20窟｜核心</text>
+<text x="735" y="280" font-size="22" fill="#44362d">昙曜五窟：云冈最核心的一组</text><text x="735" y="318" font-size="22" fill="#44362d">重点：18、19、20窟</text><text x="735" y="356" font-size="22" fill="#44362d">20窟露天大佛是标志性形象</text><text x="735" y="394" font-size="22" fill="#44362d">建议停留约 60 分钟</text>
+<rect x="1100" y="190" width="400" height="220" rx="22" fill="#fff" stroke="#dcc6a8"/>
+<text x="1125" y="235" font-size="29" font-weight="700" fill="#416b87">灵岩寺｜可快速看</text>
+<text x="1125" y="280" font-size="22" fill="#44362d">复建建筑，并非北魏原物</text><text x="1125" y="318" font-size="22" fill="#44362d">看建筑、水景即可</text><text x="1125" y="356" font-size="22" fill="#44362d">建议 15–20 分钟，不要占用核心洞窟时间</text>
+<rect x="80" y="735" width="1420" height="175" rx="24" fill="#fff" stroke="#d8c5a8"/>
+<text x="110" y="785" font-size="30" font-weight="700" fill="#4a2612">推荐顺序</text>
+<text x="110" y="835" font-size="25" fill="#44362d">游客中心 → 灵岩寺快速看 → 1–4窟顺路 → 5–6窟重点 → 9–13窟 → 16–20窟重点 → 根据体力返程</text>
+<text x="110" y="880" font-size="22" fill="#6b5544">建议总游览 3–4小时；喜欢细看可到4–5小时。洞窟内遵守文保规定，不使用闪光灯。</text>
+</g></svg>
